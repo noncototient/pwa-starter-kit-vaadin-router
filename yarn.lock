@@ -507,7 +507,7 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.2.tgz#54c5a964462be3d4d78af631363c18d6fa91ac26"
 
-"@polymer/app-layout@^3.0.0-pre.21":
+"@polymer/app-layout@^3.0.0":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@polymer/app-layout/-/app-layout-3.0.1.tgz#41266a4ae358a4f180b83d1d570a260a09570a33"
   dependencies:
@@ -545,14 +545,13 @@
   dependencies:
     "@polymer/polymer" "^3.0.0"
 
-"@polymer/lit-element@^0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@polymer/lit-element/-/lit-element-0.5.2.tgz#8d4e2d1ada27cf0f1a38b7b0eb9fadae92eb63df"
+"@polymer/lit-element@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@polymer/lit-element/-/lit-element-0.6.1.tgz#56772f8fb0c6d3d73a20a6d17f3bc82ec648664b"
   dependencies:
-    "@polymer/polymer" "^3.0.2"
-    lit-html "^0.10.0"
+    lit-html "^0.11.4"
 
-"@polymer/polymer@^3.0.0", "@polymer/polymer@^3.0.2":
+"@polymer/polymer@^3.0.0":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.0.5.tgz#eaa42e70df7de818b5e1839452c82a5f83e39929"
   dependencies:
@@ -4813,9 +4812,9 @@ liftoff@^2.5.0:
     rechoir "^0.6.2"
     resolve "^1.1.7"
 
-lit-html@^0.10.0:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-0.10.2.tgz#53c846afcf91bb1e6623179ef22e327ab8ac0e0e"
+lit-html@^0.11.4:
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-0.11.4.tgz#fa397d2b2f2d0523ebc136e5a1699aa4e9346152"
 
 load-json-file@^1.0.0:
   version "1.1.0"

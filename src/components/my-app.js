@@ -235,10 +235,17 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
+    window.addEventListener(
+      'vaadin-router-location-changed',
+      (event) => store.dispatch(navigate(event.detail.location))
+    );
+    import('../routes/app-routing.js').then((routing) => {
+      routing.init(this.shadowRoot.querySelector('main'));
+    });
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
-    installMediaQueryWatcher(`(min-width: 460px)`,
-        (matches) => store.dispatch(updateLayout(matches)));
+    installMediaQueryWatcher(
+      `(min-width: 460px)`, (matches) => store.dispatch(updateLayout(matches))
+    );
   }
 
   updated(changedProps) {
