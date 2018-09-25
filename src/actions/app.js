@@ -40,8 +40,7 @@ export const showSnackbar = () => (dispatch) => {
     type: OPEN_SNACKBAR
   });
   clearTimeout(snackbarTimer);
-  snackbarTimer = setTimeout(() =>
-    dispatch({ type: CLOSE_SNACKBAR }), 3000);
+  snackbarTimer = setTimeout(() => dispatch({ type: CLOSE_SNACKBAR }), 3000);
 };
 
 export const updateOffline = (offline) => (dispatch, getState) => {

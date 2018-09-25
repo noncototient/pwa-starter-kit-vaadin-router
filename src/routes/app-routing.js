@@ -1,5 +1,5 @@
 import {Router} from '@vaadin/router';
- export function init(outlet) {
+export function init(outlet) {
   // Check the live demos for more examples:
   // https://vaadin.github.io/vaadin-router/vaadin-router/demo
   const router = new Router(outlet);

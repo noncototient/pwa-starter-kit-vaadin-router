@@ -35,7 +35,8 @@ import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
 
 class MyApp extends connect(store)(LitElement) {
-  _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
+  render() {
+    const {appTitle, _page, _drawerOpened, _snackbarOpened, _offline} = this;
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
@@ -141,6 +142,14 @@ class MyApp extends connect(store)(LitElement) {
         min-height: 100vh;
       }
 
+      .page {
+        display: none;
+      }
+
+      .page[active] {
+        display: block;
+      }
+
       footer {
         padding: 24px;
         background: var(--app-drawer-background-color);
@@ -174,49 +183,47 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" title="Menu" on-click="${_ => store.dispatch(updateDrawerState(true))}">${menuIcon}</button>
+        <button class="menu-btn" title="Menu" @click="${_ => store.dispatch(updateDrawerState(true))}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
       </app-toolbar>
 
       <!-- This gets hidden on a small screen-->
       <nav class="toolbar-list">
-        <a selected?="${_page === 'view1'}" href="/view1">View One</a>
-        <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
+        <a ?selected="${_page === 'view1'}" href="/view1">View One</a>
+        <a ?selected="${_page === 'view2'}" href="/view2">View Two</a>
+        <a ?selected="${_page === 'view3'}" href="/view3">View Three</a>
       </nav>
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer opened="${_drawerOpened}"
-        on-opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
+    <app-drawer .opened="${_drawerOpened}"
+        @opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
       <nav class="drawer-list">
-        <a selected?="${_page === 'view1'}" href="/view1">View One</a>
-        <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
+        <a ?selected="${_page === 'view1'}" href="/view1">View One</a>
+        <a ?selected="${_page === 'view2'}" href="/view2">View Two</a>
+        <a ?selected="${_page === 'view3'}" href="/view3">View Three</a>
       </nav>
     </app-drawer>
 
     <!-- Main content -->
-    <main role="main" class="main-content">
-      <!-- added / removed dynamically by the router -->
-    </main>
+    <main role="main" class="main-content"></main>
 
     <footer>
       <p>Made with &hearts; by the Polymer team.</p>
     </footer>
 
-    <snack-bar active?="${_snackbarOpened}">
+    <snack-bar ?active="${_snackbarOpened}">
         You are now ${_offline ? 'offline' : 'online'}.</snack-bar>
     `;
   }
 
   static get properties() {
     return {
-      appTitle: String,
-      _page: String,
-      _drawerOpened: Boolean,
-      _snackbarOpened: Boolean,
-      _offline: Boolean
+      appTitle: { type: String },
+      _page: { type: String },
+      _drawerOpened: { type: Boolean },
+      _snackbarOpened: { type: Boolean },
+      _offline: { type: Boolean }
     }
   }
 
@@ -227,29 +234,20 @@ class MyApp extends connect(store)(LitElement) {
     setPassiveTouchGestures(true);
   }
 
-  _firstRendered() {
-    window.addEventListener(
-      'vaadin-router-location-changed',
-      (event) => store.dispatch(navigate(event.detail.location))
-    );
+  firstUpdated() {
+    installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 460px)`,
         (matches) => store.dispatch(updateLayout(matches)));
-
-    // To have better first-load performance, defer loading all routing code
-    // until after the app shell is rendered.
-    import('../routes/app-routing.js').then((routing) => {
-      routing.init(this.shadowRoot.querySelector('main'));
-    });
   }
 
-  _didRender(properties, changeList) {
-    if ('_page' in changeList) {
-      const pageTitle = properties.appTitle + ' - ' + changeList._page;
+  updated(changedProps) {
+    if (changedProps.has('_page')) {
+      const pageTitle = this.appTitle + ' - ' + this._page;
       updateMetadata({
-          title: pageTitle,
-          description: pageTitle
-          // This object also takes an image property, that points to an img src.
+        title: pageTitle,
+        description: pageTitle
+        // This object also takes an image property, that points to an img src.
       });
     }
   }

@@ -14,7 +14,7 @@ import { LitElement, html } from '@polymer/lit-element';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView1 extends LitElement {
-  _render(props) {
+  render() {
     return html`
       ${SharedStyles}
       <section>
